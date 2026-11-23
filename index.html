@@ -1,0 +1,2437 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Para Gaby</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Nunito:wght@400;600;700&family=Caveat:wght@500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --rosa: #f48fb1;
+      --rosa-s: #fde4ee;
+      --rosa-d: #d9668f;
+      --celeste: #7cc4ee;
+      --celeste-s: #e1f2fc;
+      --celeste-d: #3f97c9;
+      --tinta: #3d3550;
+      --suave: #7a7190;
+      --papel: #fffdfb;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent
+    }
+
+    html,
+    body {
+      height: 100%;
+      overflow: hidden
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      color: var(--tinta);
+      background: linear-gradient(160deg, #fde4ee 0%, #f3e9f9 45%, #e1f2fc 100%);
+      background-attachment: fixed;
+    }
+
+    #particulas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0
+    }
+
+    h1,
+    h2 {
+      font-family: 'Fraunces', serif;
+      font-weight: 600;
+      line-height: 1.15
+    }
+
+    h2 {
+      font-size: clamp(1.6rem, 5.5vw, 2.2rem);
+      margin-bottom: .4rem
+    }
+
+    .kicker {
+      font-size: .78rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--rosa-d);
+      font-weight: 700;
+      margin-bottom: .5rem
+    }
+
+    .sub {
+      color: var(--suave);
+      font-size: 1rem;
+      margin-bottom: 1.2rem;
+      line-height: 1.5
+    }
+
+    .mano {
+      font-family: 'Caveat', cursive
+    }
+
+    /* ---------- Sobre ---------- */
+    #sobre {
+      position: fixed;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      z-index: 20;
+      transition: opacity .8s ease, visibility .8s
+    }
+
+    #sobre.fuera {
+      opacity: 0;
+      visibility: hidden
+    }
+
+    .envelope {
+      position: relative;
+      width: min(84vw, 340px);
+      aspect-ratio: 1.45;
+      cursor: pointer;
+      perspective: 900px;
+      animation: flota 3.5s ease-in-out infinite
+    }
+
+    @keyframes flota {
+      50% {
+        transform: translateY(-8px)
+      }
+    }
+
+    .env-base {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, #fff 0%, var(--celeste-s) 100%);
+      border-radius: 14px;
+      box-shadow: 0 20px 50px -18px rgba(63, 151, 201, .45)
+    }
+
+    .env-pocket {
+      position: absolute;
+      inset: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      z-index: 3
+    }
+
+    .env-pocket:before,
+    .env-pocket:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      width: 60%;
+      height: 100%;
+      background: #f6fbff
+    }
+
+    .env-pocket:before {
+      left: 0;
+      clip-path: polygon(0 0, 100% 100%, 0 100%);
+      background: #eef7fd
+    }
+
+    .env-pocket:after {
+      right: 0;
+      clip-path: polygon(100% 0, 100% 100%, 0 100%);
+      background: #e9f4fc
+    }
+
+    .env-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 58%;
+      transform-origin: top;
+      z-index: 4;
+      transition: transform .7s cubic-bezier(.6, .05, .3, 1), z-index 0s .35s
+    }
+
+    .env-flap:before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, #fbd3e2, #f7bcd2);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-radius: 14px 14px 0 0
+    }
+
+    .envelope.abierto .env-flap {
+      transform: rotateX(180deg);
+      z-index: 1
+    }
+
+    .env-carta {
+      position: absolute;
+      left: 8%;
+      right: 8%;
+      top: 10%;
+      bottom: 8%;
+      background: var(--papel);
+      border-radius: 8px;
+      z-index: 2;
+      transition: transform .8s .45s cubic-bezier(.3, 1.3, .5, 1);
+      display: grid;
+      place-items: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .06)
+    }
+
+    .env-carta span {
+      font-family: 'Caveat';
+      font-size: 1.8rem;
+      color: var(--rosa-d)
+    }
+
+    .env-carta span {
+      opacity: 0;
+      transition: opacity .4s .6s
+    }
+
+    .envelope.abierto .env-carta span {
+      opacity: 1
+    }
+
+    .envelope.abierto .env-carta {
+      transform: translateY(-55%)
+    }
+
+    .sello {
+      position: absolute;
+      left: 50%;
+      top: 58%;
+      transform: translate(-50%, -50%);
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      z-index: 5;
+      background: radial-gradient(circle at 35% 30%, #f9a8c6, var(--rosa-d));
+      display: grid;
+      place-items: center;
+      box-shadow: 0 4px 12px rgba(217, 102, 143, .45);
+      transition: transform .4s, opacity .3s
+    }
+
+    .sello svg {
+      width: 34px
+    }
+
+    .envelope.abierto .sello {
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(.4)
+    }
+
+    .env-dest {
+      position: absolute;
+      bottom: -3.4rem;
+      left: 0;
+      right: 0;
+      text-align: center
+    }
+
+    .env-dest .mano {
+      font-size: 1.6rem;
+      color: var(--tinta)
+    }
+
+    .env-dest small {
+      display: block;
+      color: var(--suave);
+      font-size: .85rem;
+      margin-top: .2rem;
+      animation: parpadea 1.8s infinite
+    }
+
+    @keyframes parpadea {
+      50% {
+        opacity: .35
+      }
+    }
+
+    /* ---------- Escenas ---------- */
+    #app {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .8s .2s
+    }
+
+    #app.on {
+      opacity: 1;
+      pointer-events: auto
+    }
+
+    .escena {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1.25rem 6.5rem;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateX(40px);
+      transition: opacity .55s ease, transform .55s ease, visibility .55s;
+      overflow-y: auto
+    }
+
+    .escena.activa {
+      opacity: 1;
+      visibility: visible;
+      transform: none
+    }
+
+    .escena.salida {
+      transform: translateX(-40px)
+    }
+
+    .contenido {
+      width: 100%;
+      max-width: 440px;
+      margin: auto 0
+    }
+
+    /* nav */
+    .nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+    }
+
+    .btn {
+      white-space: nowrap;
+      border: none;
+      cursor: pointer;
+      font: 700 .95rem 'Nunito';
+      padding: .8rem 1.4rem;
+      border-radius: 999px;
+      transition: transform .15s, box-shadow .2s, opacity .3s
+    }
+
+    .btn:active {
+      transform: scale(.95)
+    }
+
+    .btn-pri {
+      background: linear-gradient(135deg, var(--rosa), var(--celeste));
+      color: #fff;
+      box-shadow: 0 8px 20px -8px rgba(217, 102, 143, .6)
+    }
+
+    .btn-sec {
+      background: rgba(255, 255, 255, .75);
+      color: var(--tinta);
+      backdrop-filter: blur(6px)
+    }
+
+    .btn[disabled] {
+      opacity: 0;
+      pointer-events: none
+    }
+
+    .puntos {
+      display: flex;
+      gap: 4px
+    }
+
+    .puntos i {
+      width: 6px;
+      height: 6px;
+      border-radius: 99px;
+      background: rgba(61, 53, 80, .18);
+      transition: all .35s
+    }
+
+    .puntos i.on {
+      width: 16px;
+      background: linear-gradient(90deg, var(--rosa), var(--celeste))
+    }
+
+    /* ECG */
+    .ecg {
+      width: 100%;
+      height: 90px;
+      margin: .5rem 0 1rem
+    }
+
+    .ecg path {
+      fill: none;
+      stroke: url(#gradECG);
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 900;
+      stroke-dashoffset: 900
+    }
+
+    .activa .ecg path {
+      animation: latido 2.6s ease-out forwards, pulso 1.6s 2.6s ease-in-out infinite
+    }
+
+    @keyframes latido {
+      to {
+        stroke-dashoffset: 0
+      }
+    }
+
+    @keyframes pulso {
+      50% {
+        opacity: .55
+      }
+    }
+
+    .saludo {
+      font-size: clamp(2.3rem, 9vw, 3.2rem)
+    }
+
+    .saludo em {
+      font-style: italic;
+      background: linear-gradient(90deg, var(--rosa-d), var(--celeste-d));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .texto-grande {
+      font-size: 1.12rem;
+      line-height: 1.65
+    }
+
+    /* flip cards */
+    .rejilla {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8rem;
+      margin-top: .4rem
+    }
+
+    .flip {
+      perspective: 900px;
+      aspect-ratio: .82;
+      cursor: pointer
+    }
+
+    .flip-in {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transition: transform .7s cubic-bezier(.4, .2, .2, 1);
+      transform-style: preserve-3d
+    }
+
+    .flip.vuelta .flip-in {
+      transform: rotateY(180deg)
+    }
+
+    .cara {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      border-radius: 18px;
+      padding: 1rem .85rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .6rem;
+      box-shadow: 0 10px 24px -14px rgba(61, 53, 80, .35)
+    }
+
+    .cara.frente {
+      background: rgba(255, 255, 255, .85)
+    }
+
+    .cara.frente .ico {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center
+    }
+
+    .cara.frente:nth-child(1) .ico {}
+
+    .cara.frente b {
+      font-family: 'Fraunces';
+      font-size: 1.08rem;
+      font-weight: 600
+    }
+
+    .cara.frente small {
+      color: var(--suave);
+      font-size: .75rem
+    }
+
+    .cara.dorso {
+      transform: rotateY(180deg);
+      font-size: .86rem;
+      line-height: 1.45;
+      text-align: left;
+      color: #fff
+    }
+
+    .r .ico {
+      background: var(--rosa-s)
+    }
+
+    .c .ico {
+      background: var(--celeste-s)
+    }
+
+    .r .dorso {
+      background: linear-gradient(150deg, #f5a3c1, var(--rosa-d))
+    }
+
+    .c .dorso {
+      background: linear-gradient(150deg, #94d0f2, var(--celeste-d))
+    }
+
+    .ico svg {
+      width: 30px;
+      height: 30px
+    }
+
+    /* polaroids */
+    .pila {
+      position: relative;
+      width: min(78vw, 300px);
+      height: min(102vw, 390px);
+      margin: .6rem auto 0;
+      cursor: pointer
+    }
+
+    .polaroid {
+      position: absolute;
+      inset: 0;
+      background: #fff;
+      padding: 10px 10px 52px;
+      border-radius: 6px;
+      box-shadow: 0 14px 30px -12px rgba(61, 53, 80, .4);
+      transition: transform .6s cubic-bezier(.3, 1.2, .4, 1), opacity .4s
+    }
+
+    .polaroid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 3px;
+      display: block;
+      background: #eee
+    }
+
+    .polaroid p {
+      position: absolute;
+      bottom: 10px;
+      left: 8px;
+      right: 8px;
+      font-family: 'Caveat';
+      font-size: 1.35rem;
+      color: var(--tinta);
+      line-height: 1.1
+    }
+
+    .polaroid.vuela {
+      transform: translate(120%, -10%) rotate(25deg) !important;
+      opacity: 0
+    }
+
+    .pista {
+      color: var(--suave);
+      font-size: .85rem;
+      margin-top: 1rem
+    }
+
+    /* receta */
+    .receta {
+      background: var(--papel);
+      border-radius: 16px;
+      padding: 1.3rem 1.2rem;
+      text-align: left;
+      box-shadow: 0 14px 30px -16px rgba(61, 53, 80, .35);
+      position: relative;
+      overflow: hidden
+    }
+
+    .receta:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, var(--rosa), var(--celeste))
+    }
+
+    .receta-cab {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      border-bottom: 1px dashed #ddd;
+      padding-bottom: .6rem;
+      margin-bottom: .6rem
+    }
+
+    .rx {
+      font-family: 'Fraunces';
+      font-size: 2rem;
+      color: var(--rosa-d);
+      font-style: italic
+    }
+
+    .receta-cab div {
+      font-size: .78rem;
+      color: var(--suave);
+      text-align: right;
+      line-height: 1.4
+    }
+
+    .item {
+      display: flex;
+      gap: .7rem;
+      align-items: flex-start;
+      padding: .55rem 0;
+      cursor: pointer;
+      user-select: none
+    }
+
+    .check {
+      flex: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      border: 2px solid var(--celeste);
+      display: grid;
+      place-items: center;
+      transition: all .25s;
+      margin-top: 1px
+    }
+
+    .check svg {
+      width: 14px;
+      opacity: 0;
+      transform: scale(.3);
+      transition: all .25s
+    }
+
+    .item.ok .check {
+      background: var(--celeste);
+      border-color: var(--celeste)
+    }
+
+    .item.ok .check svg {
+      opacity: 1;
+      transform: none
+    }
+
+    .item span {
+      font-size: .95rem;
+      line-height: 1.4
+    }
+
+    .item span small {
+      display: block;
+      color: var(--suave);
+      font-size: .78rem
+    }
+
+    .alta {
+      margin-top: .8rem;
+      padding: .7rem;
+      border-radius: 10px;
+      background: var(--rosa-s);
+      text-align: center;
+      font-weight: 700;
+      color: var(--rosa-d);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all .5s
+    }
+
+    .alta.si {
+      opacity: 1;
+      transform: none
+    }
+
+    .firma-dr {
+      font-family: 'Caveat';
+      font-size: 1.4rem;
+      text-align: right;
+      color: var(--celeste-d);
+      margin-top: .4rem
+    }
+
+    /* gracias */
+    .carta {
+      background: var(--papel);
+      border-radius: 16px;
+      padding: 1.6rem 1.4rem;
+      text-align: left;
+      box-shadow: 0 14px 30px -16px rgba(61, 53, 80, .35);
+      min-height: 300px
+    }
+
+    .carta p {
+      font-size: 1.06rem;
+      line-height: 1.75;
+      margin-bottom: .9rem
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: var(--rosa-d);
+      vertical-align: -3px;
+      animation: parpadea .8s infinite
+    }
+
+    /* ciudad */
+    .cielo {
+      position: relative;
+      width: 100%;
+      height: min(100vw, 380px);
+      border-radius: 20px;
+      overflow: hidden;
+      background: linear-gradient(180deg, #1b2350 0%, #3b3772 55%, #c06c9a 100%);
+      box-shadow: 0 18px 40px -18px rgba(27, 35, 80, .7)
+    }
+
+    .cielo canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%
+    }
+
+    .estrella {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      display: grid;
+      place-items: center
+    }
+
+    .estrella:before {
+      content: "";
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 0 12px 4px rgba(255, 255, 255, .8), 0 0 24px 8px rgba(124, 196, 238, .6);
+      animation: brilla 2s infinite
+    }
+
+    .estrella.vista:before {
+      background: var(--rosa);
+      box-shadow: 0 0 12px 4px rgba(244, 143, 177, .9)
+    }
+
+    @keyframes brilla {
+      50% {
+        transform: scale(1.35)
+      }
+    }
+
+    .deseo {
+      position: absolute;
+      left: 1rem;
+      right: 1rem;
+      bottom: 1rem;
+      background: rgba(255, 255, 255, .92);
+      border-radius: 12px;
+      padding: .75rem 1rem;
+      font-size: .95rem;
+      color: var(--tinta);
+      transform: translateY(130%);
+      transition: transform .45s cubic-bezier(.3, 1.3, .5, 1)
+    }
+
+    .deseo.ver {
+      transform: none
+    }
+
+    /* final */
+    .final-firma {
+      font-family: 'Caveat';
+      font-size: 3rem;
+      color: var(--rosa-d);
+      margin: .4rem 0 1.4rem
+    }
+
+    .corazonecg {
+      width: 120px;
+      margin: 0 auto 1rem;
+      display: block
+    }
+
+    #chispas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 30
+    }
+
+    /* sonrisa */
+    .retrato {
+      position: relative;
+      width: min(72vw, 290px);
+      margin: .4rem auto 1.2rem;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 18px 40px -18px rgba(217, 102, 143, .6)
+    }
+
+    .retrato:before {
+      content: "";
+      position: absolute;
+      inset: -50%;
+      background: conic-gradient(from 0deg, var(--rosa), var(--celeste), var(--rosa), var(--celeste), var(--rosa));
+      animation: gira 8s linear infinite;
+      filter: blur(1px)
+    }
+
+    @keyframes gira {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .retrato-in {
+      position: relative;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #fff;
+      padding: 5px
+    }
+
+    .retrato img {
+      display: block;
+      width: 100%;
+      border-radius: 18px;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      object-position: center 20%
+    }
+
+    .activa .retrato-in {
+      animation: aparece 1.2s cubic-bezier(.2, .8, .2, 1)
+    }
+
+    @keyframes aparece {
+      from {
+        opacity: 0;
+        transform: scale(.92)
+      }
+    }
+
+    .frase {
+      font-family: 'Fraunces';
+      font-style: italic;
+      font-size: 1.25rem;
+      line-height: 1.45;
+      margin-bottom: .7rem
+    }
+
+    .frase.b {
+      font-style: normal;
+      font-family: 'Nunito';
+      font-size: 1.05rem;
+      color: var(--suave);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all .8s 1s
+    }
+
+    .activa .frase.b {
+      opacity: 1;
+      transform: none
+    }
+
+    .ojitos {
+      color: var(--rosa-d);
+      font-weight: 700
+    }
+
+    /* curita */
+    .zona-curita {
+      position: relative;
+      height: 190px;
+      display: grid;
+      place-items: center;
+      margin: .6rem 0 1rem;
+      cursor: pointer
+    }
+
+    .corazon-herida {
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      opacity: .9
+    }
+
+    .curita {
+      position: relative;
+      width: 250px;
+      height: 74px;
+      border-radius: 40px;
+      background: linear-gradient(180deg, #f9b9cf, #f29bbb);
+      box-shadow: 0 10px 22px -10px rgba(217, 102, 143, .6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translate(70px, -60px) rotate(-28deg);
+      transition: transform .8s cubic-bezier(.3, 1.5, .5, 1)
+    }
+
+    .curita:before,
+    .curita:after {
+      content: "";
+      position: absolute;
+      top: 14px;
+      bottom: 14px;
+      width: 58px;
+      background-image: radial-gradient(circle, rgba(255, 255, 255, .55) 2px, transparent 2.5px);
+      background-size: 12px 12px
+    }
+
+    .curita:before {
+      left: 18px
+    }
+
+    .curita:after {
+      right: 18px
+    }
+
+    .curita .pad {
+      width: 92px;
+      height: 52px;
+      border-radius: 10px;
+      background: linear-gradient(180deg, #e1f2fc, #bfe2f7);
+      display: grid;
+      place-items: center;
+      font-family: 'Caveat';
+      font-size: 1.2rem;
+      color: var(--celeste-d)
+    }
+
+    .zona-curita.puesta .curita {
+      transform: rotate(-4deg)
+    }
+
+    .esquina {
+      position: absolute;
+      right: -4px;
+      top: -4px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
+      transition: opacity .3s
+    }
+
+    .zona-curita.puesta .esquina {
+      opacity: 0
+    }
+
+    .msg-curita {
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all .8s .5s
+    }
+
+    .msg-curita.ver {
+      opacity: 1;
+      transform: none
+    }
+
+    .msg-curita p {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      margin-bottom: .6rem
+    }
+
+    /* tortuga */
+    .camino {
+      position: relative;
+      height: 170px;
+      margin: .6rem 0 .6rem
+    }
+
+    .suelo {
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      bottom: 34px;
+      border-top: 3px dashed rgba(63, 151, 201, .35)
+    }
+
+    .tortuga {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      width: 104px;
+      transition: left 1.6s cubic-bezier(.45, .05, .4, 1)
+    }
+
+    .tortuga.camina .pata {
+      animation: pata .4s ease-in-out 4 alternate
+    }
+
+    .tortuga.camina .cabeza {
+      animation: cabeza .8s ease-in-out 2
+    }
+
+    @keyframes pata {
+      to {
+        transform: translateX(5px)
+      }
+    }
+
+    @keyframes cabeza {
+      50% {
+        transform: translate(3px, -2px)
+      }
+    }
+
+    .meta {
+      position: absolute;
+      right: 2%;
+      bottom: 34px;
+      width: 58px
+    }
+
+    .meta .flor-meta {
+      transform-origin: bottom;
+      transform: scale(.4);
+      transition: transform 1s cubic-bezier(.3, 1.5, .5, 1)
+    }
+
+    .camino.llego .flor-meta {
+      transform: scale(1)
+    }
+
+    .pasos-txt {
+      min-height: 110px
+    }
+
+    .pasos-txt p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: .5rem;
+      animation: sube .7s ease both
+    }
+
+    .pasos-txt p.fin {
+      font-family: 'Fraunces';
+      font-style: italic;
+      color: var(--rosa-d)
+    }
+
+    @keyframes sube {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+    }
+
+    /* trailer */
+    .pantalla {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4/5;
+      max-height: 62vh;
+      background: #0e0c16;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 20px 44px -18px rgba(14, 12, 22, .7);
+      cursor: pointer
+    }
+
+    .pantalla:before,
+    .pantalla:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 9%;
+      background: #000;
+      z-index: 3
+    }
+
+    .pantalla:before {
+      top: 0
+    }
+
+    .pantalla:after {
+      bottom: 0
+    }
+
+    .cuadro {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1s
+    }
+
+    .cuadro.on {
+      opacity: 1
+    }
+
+    .cuadro img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover
+    }
+
+    .cuadro.on img {
+      animation: ken 3.4s ease-out forwards
+    }
+
+    @keyframes ken {
+      from {
+        transform: scale(1.15)
+      }
+
+      to {
+        transform: scale(1)
+      }
+    }
+
+    .leyenda {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 12%;
+      z-index: 4;
+      color: #fff;
+      font-family: 'Fraunces';
+      font-style: italic;
+      font-size: 1.15rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, .7);
+      padding: 0 1rem;
+      opacity: 0;
+      transition: opacity .8s
+    }
+
+    .leyenda.on {
+      opacity: 1
+    }
+
+    .play {
+      position: absolute;
+      inset: 0;
+      z-index: 5;
+      display: grid;
+      place-items: center;
+      color: #fff
+    }
+
+    .play div {
+      text-align: center
+    }
+
+    .play b {
+      display: grid;
+      place-items: center;
+      width: 74px;
+      height: 74px;
+      margin: 0 auto .8rem;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--rosa), var(--celeste));
+      font-size: 1.6rem;
+      padding-left: 5px;
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, .08)
+    }
+
+    .play span {
+      letter-spacing: .3em;
+      font-size: .8rem;
+      opacity: .8
+    }
+
+    .fin-trailer {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      color: #fff;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1.2s
+    }
+
+    .fin-trailer.on {
+      opacity: 1
+    }
+
+    .fin-trailer p {
+      font-family: 'Fraunces';
+      font-size: 1.3rem;
+      line-height: 1.45;
+      margin-bottom: .8rem
+    }
+
+    .fin-trailer p em {
+      background: linear-gradient(90deg, #f9a8c6, #9fd6f5);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent
+    }
+
+    .fin-trailer small {
+      font-size: .92rem;
+      opacity: .85;
+      line-height: 1.5
+    }
+
+    /* jardín */
+    .escena.jardin {
+      justify-content: flex-start;
+      padding-top: 2.2rem
+    }
+
+    .jardin .contenido {
+      position: relative;
+      z-index: 2;
+      margin: 0
+    }
+
+    .tarjeta-flores {
+      background: rgba(255, 255, 255, .78);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 1.3rem 1.2rem;
+      box-shadow: 0 14px 30px -18px rgba(61, 53, 80, .4)
+    }
+
+    .tarjeta-flores .final-firma {
+      margin: .2rem 0 .8rem;
+      font-size: 2.6rem
+    }
+
+    .jardin-flores {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 62%;
+      z-index: 1;
+      overflow: hidden
+    }
+
+    .flor {
+      position: absolute;
+      bottom: -6px;
+      transform-origin: 50% 100%;
+      transform: scaleY(0);
+      animation: crece 1.4s cubic-bezier(.3, 1.25, .5, 1) forwards
+    }
+
+    .flor .cab {
+      transform-origin: 50% 50%;
+      animation: mece 4s ease-in-out infinite alternate
+    }
+
+    @keyframes crece {
+      to {
+        transform: scaleY(1)
+      }
+    }
+
+    @keyframes mece {
+      from {
+        transform: rotate(-5deg)
+      }
+
+      to {
+        transform: rotate(5deg)
+      }
+    }
+
+    .pista-flor {
+      font-size: .82rem;
+      color: var(--suave);
+      margin-top: .6rem
+    }
+
+    /* frases de ánimo */
+    .mazo {
+      position: relative;
+      height: 250px;
+      margin: .8rem auto 1.2rem;
+      width: min(82vw, 330px);
+      perspective: 1000px
+    }
+
+    .mazo .atras {
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      background: #fff;
+      opacity: .55;
+      transform: rotate(-4deg) translateY(8px)
+    }
+
+    .mazo .atras.b {
+      transform: rotate(3deg) translateY(4px);
+      opacity: .75;
+      background: var(--celeste-s)
+    }
+
+    .frase-card {
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      padding: 1.6rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: .9rem;
+      background: linear-gradient(150deg, #fff 0%, #fff 55%, var(--rosa-s) 100%);
+      box-shadow: 0 16px 34px -16px rgba(61, 53, 80, .4)
+    }
+
+    .frase-card.gira {
+      animation: giraCard .7s ease
+    }
+
+    @keyframes giraCard {
+      0% {
+        transform: rotateY(0)
+      }
+
+      50% {
+        transform: rotateY(90deg) scale(.95)
+      }
+
+      100% {
+        transform: rotateY(0)
+      }
+    }
+
+    .frase-card .num {
+      font-size: .75rem;
+      letter-spacing: .2em;
+      color: var(--celeste-d);
+      font-weight: 700
+    }
+
+    .frase-card p {
+      font-family: 'Fraunces';
+      font-size: 1.45rem;
+      line-height: 1.35
+    }
+
+    .frase-card svg {
+      width: 30px;
+      opacity: .8
+    }
+
+    /* piropos */
+    .monitor {
+      background: #121726;
+      border-radius: 18px;
+      padding: 1rem;
+      color: #b8f5c8;
+      text-align: left;
+      box-shadow: 0 18px 40px -18px rgba(18, 23, 38, .8);
+      position: relative;
+      overflow: hidden
+    }
+
+    .mon-cab {
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      margin-bottom: .6rem
+    }
+
+    .mon-cab img {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center 30%;
+      border: 2px solid var(--rosa)
+    }
+
+    .mon-cab div {
+      font-size: .72rem;
+      line-height: 1.4;
+      color: #8fa3c7
+    }
+
+    .mon-cab b {
+      display: block;
+      color: #e8eefc;
+      font-size: .85rem
+    }
+
+    .mon-fila {
+      display: flex;
+      align-items: flex-end;
+      gap: .6rem
+    }
+
+    #ecgMon {
+      flex: 1;
+      height: 70px;
+      width: 100%
+    }
+
+    .bpm {
+      text-align: right;
+      min-width: 86px
+    }
+
+    .bpm small {
+      display: block;
+      font-size: .65rem;
+      letter-spacing: .15em;
+      color: #f48fb1
+    }
+
+    .bpm span {
+      font: 700 2.4rem 'Nunito';
+      color: #f48fb1;
+      line-height: 1
+    }
+
+    .bpm span.late {
+      animation: late .35s
+    }
+
+    @keyframes late {
+      50% {
+        transform: scale(1.18)
+      }
+    }
+
+    .piropo {
+      min-height: 96px;
+      margin: 1rem 0 .9rem;
+      display: grid;
+      place-items: center
+    }
+
+    .piropo p {
+      font-family: 'Fraunces';
+      font-size: 1.2rem;
+      line-height: 1.45;
+      animation: sube .6s ease both
+    }
+
+    .alerta {
+      font-size: .7rem;
+      color: #ffb4cc;
+      letter-spacing: .12em;
+      margin-top: .4rem;
+      min-height: 1em
+    }
+
+    /* pergamino */
+    .pergamino {
+      position: relative;
+      margin: .8rem auto 0;
+      width: min(88vw, 380px)
+    }
+
+    .rodillo {
+      height: 22px;
+      border-radius: 12px;
+      background: linear-gradient(180deg, #d9b38c, #b88a5e 50%, #9c6f45);
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, .2)
+    }
+
+    .rodillo:before,
+    .rodillo:after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #f7bcd2, var(--rosa-d))
+    }
+
+    .rodillo:before {
+      left: -8px
+    }
+
+    .rodillo:after {
+      right: -8px
+    }
+
+    .papel {
+      margin: 0 12px;
+      background: linear-gradient(90deg, #efdfc0 0%, #fbf1dc 12%, #fdf6e6 50%, #fbf1dc 88%, #efdfc0 100%);
+      padding: 0 1.4rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 2.2s cubic-bezier(.4, 0, .2, 1), padding 2.2s;
+      text-align: left;
+      position: relative
+    }
+
+    .pergamino.abierto .papel {
+      max-height: 900px;
+      padding: 1.4rem 1.4rem 1.2rem
+    }
+
+    .papel h3 {
+      font-family: 'Fraunces';
+      font-style: italic;
+      font-size: 1.35rem;
+      color: #7a4a2a;
+      margin-bottom: .8rem;
+      text-align: center
+    }
+
+    .papel p {
+      font-family: 'Fraunces';
+      font-size: 1rem;
+      line-height: 1.7;
+      color: #5a4030;
+      margin-bottom: .8rem
+    }
+
+    .papel .firma {
+      font-family: 'Caveat';
+      font-size: 1.7rem;
+      text-align: right;
+      color: var(--rosa-d)
+    }
+
+    .abrir-perg {
+      margin-top: 1rem
+    }
+
+    /* canción */
+    .tocadiscos {
+      position: relative;
+      width: min(78vw, 300px);
+      aspect-ratio: 1;
+      margin: .6rem auto 1rem;
+      border-radius: 24px;
+      background: linear-gradient(150deg, #fff, var(--celeste-s));
+      box-shadow: 0 18px 40px -18px rgba(63, 151, 201, .55);
+      cursor: pointer
+    }
+
+    .vinilo {
+      position: absolute;
+      left: 8%;
+      top: 8%;
+      width: 76%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: repeating-radial-gradient(circle, #1c1a24 0 2px, #26232f 2px 4px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .35)
+    }
+
+    .vinilo:after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: conic-gradient(from 30deg, transparent 0 20%, rgba(255, 255, 255, .12) 25%, transparent 30% 70%, rgba(255, 255, 255, .1) 75%, transparent 80%)
+    }
+
+    .etiqueta {
+      position: absolute;
+      left: 31%;
+      top: 31%;
+      width: 38%;
+      height: 38%;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 3px solid var(--rosa);
+      z-index: 1
+    }
+
+    .etiqueta img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 22%
+    }
+
+    .etiqueta:after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 9px;
+      height: 9px;
+      margin: -4.5px;
+      border-radius: 50%;
+      background: #fff
+    }
+
+    .tocadiscos.suena .vinilo {
+      animation: girar 3s linear infinite
+    }
+
+    @keyframes girar {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    .brazo {
+      position: absolute;
+      right: 7%;
+      top: 6%;
+      width: 14%;
+      height: 62%;
+      transform-origin: 70% 8%;
+      transform: rotate(-24deg);
+      transition: transform 1s cubic-bezier(.4, 1.4, .5, 1);
+      z-index: 2
+    }
+
+    .tocadiscos.suena .brazo {
+      transform: rotate(4deg)
+    }
+
+    .brazo:before {
+      content: "";
+      position: absolute;
+      right: 16%;
+      top: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #f9a8c6, var(--rosa-d))
+    }
+
+    .brazo:after {
+      content: "";
+      position: absolute;
+      right: calc(16% + 9px);
+      top: 11px;
+      width: 4px;
+      height: 88%;
+      background: linear-gradient(#cfd6e0, #9aa6b6);
+      border-radius: 2px;
+      box-shadow: -6px 0 0 -1px transparent
+    }
+
+    .cabezal {
+      position: absolute;
+      bottom: 0;
+      right: calc(16% + 3px);
+      width: 16px;
+      height: 22px;
+      border-radius: 4px;
+      background: var(--celeste-d);
+      transform: rotate(18deg)
+    }
+
+    .ecualizador {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 4px;
+      height: 28px;
+      margin-bottom: .6rem
+    }
+
+    .ecualizador i {
+      width: 5px;
+      height: 6px;
+      border-radius: 3px;
+      background: linear-gradient(var(--rosa), var(--celeste))
+    }
+
+    .suena-ya .ecualizador i {
+      animation: eq .9s ease-in-out infinite alternate
+    }
+
+    .ecualizador i:nth-child(2) {
+      animation-delay: -.3s
+    }
+
+    .ecualizador i:nth-child(3) {
+      animation-delay: -.6s
+    }
+
+    .ecualizador i:nth-child(4) {
+      animation-delay: -.15s
+    }
+
+    .ecualizador i:nth-child(5) {
+      animation-delay: -.45s
+    }
+
+    .ecualizador i:nth-child(6) {
+      animation-delay: -.75s
+    }
+
+    .ecualizador i:nth-child(7) {
+      animation-delay: -.2s
+    }
+
+    @keyframes eq {
+      from {
+        height: 5px
+      }
+
+      to {
+        height: 26px
+      }
+    }
+
+    .cancion b {
+      font-family: 'Fraunces';
+      font-size: 1.5rem;
+      display: block
+    }
+
+    .cancion span {
+      color: var(--suave);
+      font-size: .95rem
+    }
+
+    .btn-spotify {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      text-decoration: none;
+      margin-top: 1rem;
+      background: #1db954;
+      color: #fff;
+      box-shadow: 0 8px 20px -8px rgba(29, 185, 84, .6)
+    }
+
+    .btn-spotify svg {
+      width: 20px
+    }
+
+    @media (min-width:700px) {
+      .pila {
+        height: 400px
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="particulas"></canvas>
+  <canvas id="chispas"></canvas>
+
+  <!-- Sobre -->
+  <div id="sobre">
+    <div class="envelope" id="envelope" role="button" aria-label="Abrir la tarjeta">
+      <div class="env-base"></div>
+      <div class="env-carta"><span>para ti ✿</span></div>
+      <div class="env-pocket"></div>
+      <div class="env-flap"></div>
+      <div class="sello">
+        <svg viewBox="0 0 40 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M1 13h9l3-7 5 14 4-11 2 4h15" />
+        </svg>
+      </div>
+      <div class="env-dest"><span class="mano">Para: Gaby</span><small>toca el sobre para abrirlo</small></div>
+    </div>
+  </div>
+
+  <main id="app">
+    <!-- 1 -->
+    <section class="escena">
+      <div class="contenido">
+        <p class="kicker">Una tarjeta para ti</p>
+        <h1 class="saludo">Hola, <em>Gaby</em></h1>
+        <svg class="ecg" viewBox="0 0 400 90" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gradECG" x1="0" x2="1">
+              <stop offset="0" stop-color="#f48fb1" />
+              <stop offset="1" stop-color="#7cc4ee" />
+            </linearGradient>
+          </defs>
+          <path
+            d="M0 50 H110 l10 -6 l8 6 H150 l8 -36 l12 70 l10 -46 l7 12 H230 c10 -10 18 -10 26 0 H290 l8 -30 l10 54 l8 -24 H400" />
+        </svg>
+        <p class="texto-grande">Hice esto porque hay cosas que a veces no sé decir bien en persona.<br><br>Así que aquí
+          van, con calma, para que las leas cuando quieras.</p>
+      </div>
+    </section>
+
+    <!-- sonrisa -->
+    <section class="escena">
+      <div class="contenido">
+        <p class="kicker">Antes que nada</p>
+        <div class="retrato" id="retrato">
+          <div class="retrato-in"><img src="img/linda.jpg" alt="Gaby"></div>
+        </div>
+        <p class="frase">Así, toda desprevenida,<br>no se te quita lo hermosa.</p>
+        <p class="frase b">Tu sonrisa me encanta. Y tus ojitos… <span class="ojitos">esos sí me quitan el sueño.</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="escena">
+      <div class="contenido">
+        <p class="kicker">Lo que admiro de ti</p>
+        <h2>No todo el mundo es así</h2>
+        <p class="sub">Toca cada tarjeta</p>
+        <div class="rejilla">
+          <div class="flip r">
+            <div class="flip-in">
+              <div class="cara frente">
+                <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#d9668f" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 3v6a4 4 0 0 0 8 0V3" />
+                    <path d="M10 13v3a5 5 0 0 0 10 0v-2" />
+                    <circle cx="20" cy="12" r="2" />
+                  </svg></div><b>Tu vocación</b><small>enfermería</small>
+              </div>
+              <div class="cara dorso">Elegiste cuidar a la gente en algunos de sus peores días. Y lo haces con
+                paciencia, aun después de turnos largos y con cansancio encima. Eso dice mucho de quién eres.</div>
+            </div>
+          </div>
+          <div class="flip c">
+            <div class="flip-in">
+              <div class="cara frente">
+                <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#3f97c9" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6.5 6.5v11M17.5 6.5v11M3 9v6M21 9v6M6.5 12h11" />
+                  </svg></div><b>Tu disciplina</b><small>el gym</small>
+              </div>
+              <div class="cara dorso">Ir a entrenar cuando lo fácil sería quedarse en casa no lo hace cualquiera. Esa
+                constancia se te nota en todo lo que te propones.</div>
+            </div>
+          </div>
+          <div class="flip c">
+            <div class="flip-in">
+              <div class="cara frente">
+                <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#3f97c9" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.5 6.7 19.4l1.2-6L3.4 9.3l6-.7z" />
+                  </svg></div><b>Tu esfuerzo</b><small>lo que has logrado</small>
+              </div>
+              <div class="cara dorso">Nada de lo que tienes te llegó regalado: te lo has ganado tú. Ojalá te des el
+                crédito que te mereces, porque es bastante.</div>
+            </div>
+          </div>
+          <div class="flip r">
+            <div class="flip-in">
+              <div class="cara frente">
+                <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="#d9668f" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 20l6-9 4 5 3-4 7 8z" />
+                    <circle cx="17" cy="6" r="2.5" />
+                  </svg></div><b>Tu forma de mirar</b><small>las vistas bonitas</small>
+              </div>
+              <div class="cara dorso">Te detienes a ver un atardecer o la ciudad encendida desde arriba. Me gusta cómo
+                encuentras lo bonito en lo simple.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- frases de ánimo -->
+    <section class="escena">
+      <div class="contenido">
+        <p class="kicker">Para los días pesados</p>
+        <h2>Léelas cuando las necesites</h2>
+        <div class="mazo">
+          <div class="atras"></div>
+          <div class="atras b"></div>
+          <div class="frase-card" id="fraseCard">
+            <span class="num" id="fraseNum">1 / 12</span>
+            <p id="fraseTxt"></p>
+            <svg viewBox="0 0 40 24" fill="none" stroke="#f48fb1" stroke-width="2.4" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M1 13h9l3-7 5 14 4-11 2 4h15" />
+            </svg>
+          </div>
+        </div>
+        <button class="btn btn-pri" id="otraFrase">Otra frase ✦</button>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="escena">
+      <div class="contenido">
+        <p class="kicker">Algunos recuerdos</p>
+        <h2>Momentos que guardo</h2>
+        <div class="pila" id="pila"></div>
+        <p class="pista">Toca la foto para ver la siguiente</p>
+      </div>
+    </section>
+
+    <!-- curita -->
+    <section class="escena">
+      <div class="contenido">
+        <p class="kicker">Algo que quería decirte</p>
+        <h2>Tú, enfermera de todos…</h2>
+        <p class="sub">Toca la curita</p>
+        <div class="zona-curita" id="curita">
+          <svg class="corazon-herida" viewBox="0 0 24 24" fill="#fde4ee" stroke="#f48fb1" stroke-width="1.2">
+            <path
+              d="M12 21s-7.5-4.6-9.6-9.3C.9 8.2 3 4.5 6.6 4.5c2.1 0 3.6 1.2 5.4 3.2 1.8-2 3.3-3.2 5.4-3.2 3.6 0 5.7 3.7 4.2 7.2C19.5 16.4 12 21 12 21z" />
+          </svg>
+          <div class="curita">
+            <div class="pad">para el alma</div><i class="esquina"></i>
+          </div>
+        </div>
+        <div class="msg-curita" id="msgCurita">
+          <p>Cada locura y cada momento contigo es maravilloso. Me olvido del mundo por un rato.</p>
+          <p>Lo alegre se hace tan grande y lo malo tan imperceptible que pesa menos.</p>
+          <p class="frase">Eres una curita para el alma.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="escena">
+      <div class="contenido">
+        <p class="kicker">Indicaciones</p>
+        <h2>Tu receta de hoy</h2>
+        <p class="sub">Ya que tú cuidas a todos, alguien tiene que recetarte a ti</p>
+        <div class="receta">
+          <div class="receta-cab"><span class="rx">℞</span>
+            <div>Paciente: Gabriela<br>Diagnóstico: persona valiosa</div>
+          </div>
+          <div class="item">
+            <div class="check"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2.4">
+                <path d="M2 7l3.5 3.5L12 4" />
+              </svg></div><span>Descansar después de cada turno<small>sin culpa, eso también es trabajo</small></span>
+          </div>
+          <div class="item">
+            <div class="check"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2.4">
+                <path d="M2 7l3.5 3.5L12 4" />
+              </svg></div><span>Tomar agua<small>tú sabes mejor que nadie cuánta</small></span>
+          </div>
+          <div class="item">
+            <div class="check"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2.4">
+                <path d="M2 7l3.5 3.5L12 4" />
+              </svg></div><span>Seguir rompiéndola en el gym<small>a tu ritmo</small></span>
+          </div>
+          <div class="item">
+            <div class="check"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2.4">
+                <path d="M2 7l3.5 3.5L12 4" />
+              </svg></div><span>Una buena vista cuando haga falta<small>dosis: según necesidad</small></span>
+          </div>
+          <div class="item">
+            <div class="check"><svg viewBox="0 0 14 14" fill="none" stroke="#fff" stroke-width="2.4">
+                <path d="M2 7l3.5 3.5L12 4" />
+              </svg></div><span>Recordar lo mucho que vales<small>dosis: diaria, sin fecha de fin</small></span>
+          </div>
+          <div class="alta" id="alta">✓ Tratamiento aceptado. Pronóstico: excelente.</div>
+          <div class="firma-dr">— Dr. Gerard</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- piropos -->
+    <section class="escena" id="escenaPiropos">
+      <div class="contenido">
+        <p class="kicker">Monitoreo constante</p>
+        <h2>Piropos de guardia</h2>
+        <p class="sub">Cuidado: cada piropo me sube el pulso</p>
+        <div class="monitor">
+          <div class="mon-cab"><img src="img/enfermera.jpg" alt="Gaby">
+            <div><b>Enfermera a cargo: Gaby</b>Paciente: Gerard · Hab. 17-10</div>
+          </div>
+          <div class="mon-fila">
+            <canvas id="ecgMon"></canvas>
+            <div class="bpm"><small>LPM ♥</small><span id="bpm">72</span></div>
+          </div>
+          <div class="alerta" id="alerta"></div>
+        </div>
+        <div class="piropo" id="piropo">
+          <p class="sub" style="margin:0">Toca el botón y revisa al paciente</p>
+        </div>
+        <button class="btn btn-pri" id="otroPiropo">Dame un piropo</button>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="escena" id="escenaGracias">
+      <div class="contenido">
+        <p class="kicker">Lo más importante</p>
+        <h2>Gracias</h2>
+        <div class="carta" id="carta"></div>
+      </div>
+    </section>
+
+    <!-- tortuga -->
+    <section class="escena">
+      <div class="contenido">
+        <p class="kicker">Con calma</p>
+        <h2>Paso a pasito</h2>
+        <div class="camino" id="camino">
+          <div class="suelo"></div>
+          <svg class="meta" viewBox="0 0 60 110">
+            <g class="flor-meta">
+              <path d="M30 110 V55" stroke="#6fae6a" stroke-width="3" />
+              <path d="M30 85 q14 -10 20 -2 q-10 8 -20 2z" fill="#7fc07a" />
+              <g transform="translate(30 40)" id="metaCab"></g>
+            </g>
+          </svg>
+          <svg class="tortuga" id="tortuga" viewBox="0 0 120 70">
+            <g class="pata">
+              <ellipse cx="34" cy="58" rx="8" ry="6" fill="#9bd3a0" />
+              <ellipse cx="80" cy="58" rx="8" ry="6" fill="#9bd3a0" />
+            </g>
+            <path d="M18 54 L8 52 L18 48z" fill="#9bd3a0" />
+            <path d="M20 54 Q20 14 58 12 Q96 14 96 54 Z" fill="#7cc4ee" />
+            <path d="M20 54 Q20 14 58 12 Q96 14 96 54 Z" fill="none" stroke="#3f97c9" stroke-width="2.5" />
+            <path d="M58 14 L50 32 L58 52 L66 32Z M36 26 L50 32 L42 50 M80 26 L66 32 L74 50" fill="none"
+              stroke="#f48fb1" stroke-width="2.4" stroke-linejoin="round" />
+            <rect x="16" y="50" width="84" height="7" rx="3.5" fill="#f7bcd2" />
+            <g class="cabeza">
+              <circle cx="104" cy="40" r="12" fill="#9bd3a0" />
+              <circle cx="108" cy="37" r="2.2" fill="#3d3550" />
+              <path d="M106 45 q4 3 7 -1" stroke="#3d3550" stroke-width="1.6" fill="none" stroke-linecap="round" />
+              <circle cx="102" cy="44" r="2.5" fill="#f7a8c4" opacity=".7" />
+            </g>
+          </svg>
+        </div>
+        <div class="pasos-txt" id="pasosTxt"></div>
+        <button class="btn btn-pri" id="pasito">Un pasito más 🐢</button>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="escena" id="escenaCiudad">
+      <div class="contenido">
+        <p class="kicker">Lo que viene</p>
+        <h2>Ojalá vengan más</h2>
+        <p class="sub">Toca las estrellas</p>
+        <div class="cielo" id="cielo">
+          <canvas id="ciudad"></canvas>
+          <div class="deseo" id="deseo"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- tráiler -->
+    <section class="escena" id="escenaTrailer">
+      <div class="contenido">
+        <p class="kicker">Próximamente</p>
+        <h2>Esto apenas empieza</h2>
+        <div class="pantalla" id="pantalla">
+          <div class="play" id="play">
+            <div><b>▶</b><span>VER TRÁILER</span></div>
+          </div>
+          <div class="leyenda" id="leyenda"></div>
+          <div class="fin-trailer" id="finTrailer">
+            <p>Si esto es solo un hermoso tráiler…<br><em>imagínate la película completa.</em></p>
+            <small>Agradecido con la vida por todas las cosas maravillosas que me has hecho vivir.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- pergamino -->
+    <section class="escena" id="escenaPerg">
+      <div class="contenido">
+        <p class="kicker">Una última carta</p>
+        <h2>Para que la guardes</h2>
+        <div class="pergamino" id="pergamino">
+          <div class="rodillo"></div>
+          <div class="papel">
+            <h3>Lo bonito de lo simple</h3>
+            <p>Me gusta cuando me cuentas cómo te fue en el turno, aunque llegues cansada y con ganas de nada. Me gusta
+              que me mandes una foto de lo que estás comiendo o de alguna vista que te encontraste.</p>
+            <p>Me gusta saber que, entre tus turnos, el gym y todo lo que cargas, a veces encuentras un ratito para mí.
+              Ese ratito vale muchísimo más de lo que crees.</p>
+            <p>Y cuando por fin te veo, se me olvida la mitad de lo que te iba a decir. Me quedo mirándote y pensando en
+              la suerte que tengo de haberte conocido.</p>
+            <p class="firma">— Gerard</p>
+          </div>
+          <div class="rodillo"></div>
+        </div>
+        <button class="btn btn-pri abrir-perg" id="abrirPerg">Desenrollar</button>
+      </div>
+    </section>
+
+    <!-- canción -->
+    <section class="escena" id="escenaCancion">
+      <div class="contenido">
+        <p class="kicker">Una canción para ti</p>
+        <h2>Cuando la escucho, pienso en ti</h2>
+        <p class="sub">Toca el tocadiscos</p>
+        <div class="tocadiscos" id="tocadiscos">
+          <div class="vinilo">
+            <div class="etiqueta"><img src="img/linda.jpg" alt=""></div>
+          </div>
+          <div class="brazo">
+            <div class="cabezal"></div>
+          </div>
+        </div>
+        <div class="ecualizador"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <div class="cancion"><b>Razón</b><span>Los Caligaris</span></div>
+        <div id="reproductor" style="margin-top:1rem"></div>
+        <a class="btn btn-spotify" href="https://open.spotify.com/track/2dSz2px33HmyFwL5rDlh2e" target="_blank"
+          rel="noopener">
+          <svg viewBox="0 0 24 24" fill="#fff">
+            <path
+              d="M12 1.5a10.5 10.5 0 1 0 0 21 10.5 10.5 0 0 0 0-21zm4.8 15.2a.65.65 0 0 1-.9.2c-2.5-1.5-5.6-1.9-9.3-1a.65.65 0 1 1-.3-1.3c4-.9 7.5-.5 10.3 1.2.3.2.4.6.2.9zm1.3-2.9a.8.8 0 0 1-1.1.3c-2.8-1.7-7.2-2.2-10.5-1.2a.8.8 0 0 1-.5-1.6c3.8-1.1 8.6-.6 11.8 1.4.4.2.5.7.3 1.1zm.1-3c-3.4-2-9-2.2-12.2-1.2a1 1 0 1 1-.6-1.9c3.7-1.1 9.9-.9 13.8 1.4a1 1 0 0 1-1 1.7z" />
+          </svg>
+          Escúchala en Spotify
+        </a>
+      </div>
+    </section>
+
+    <!-- flores -->
+    <section class="escena jardin" id="escenaJardin">
+      <div class="jardin-flores" id="jardin"></div>
+      <div class="contenido">
+        <div class="tarjeta-flores">
+          <p class="kicker">Para terminar</p>
+          <p class="texto-grande">Por todas las rosas que no te he dado desde el <b>sábado 17 de octubre</b>… aquí van
+            girasoles y claveles.</p>
+          <p class="final-firma">— Gerard</p>
+          <button class="btn btn-pri" id="otraVez">Ver otra vez</button>
+          <p class="pista-flor">Toca el jardín para que salgan más flores</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="nav" id="nav" style="display:none">
+    <button class="btn btn-sec" id="prev" aria-label="Anterior">←</button>
+    <div class="puntos" id="puntos"></div>
+    <button class="btn btn-pri" id="next">Sigue →</button>
+  </nav>
+
+  <script>
+    /* ---------- partículas de fondo ---------- */
+    const pc = document.getElementById('particulas'), px = pc.getContext('2d');
+    let W, H, parts = [];
+    function size() { W = pc.width = innerWidth * devicePixelRatio; H = pc.height = innerHeight * devicePixelRatio; pc.style.width = innerWidth + 'px'; pc.style.height = innerHeight + 'px'; chis.width = W; chis.height = H; chis.style.width = innerWidth + 'px'; chis.style.height = innerHeight + 'px' }
+    const chis = document.getElementById('chispas'), cx = chis.getContext('2d');
+    size(); addEventListener('resize', size);
+    for (let i = 0; i < 28; i++)parts.push({ x: Math.random(), y: Math.random(), r: 2 + Math.random() * 5, v: .0002 + Math.random() * .0005, c: Math.random() < .5 ? '244,143,177' : '124,196,238', a: .2 + Math.random() * .35, f: Math.random() * 6 });
+    (function loop(t) { px.clearRect(0, 0, W, H); for (const p of parts) { p.y -= p.v; if (p.y < -.05) p.y = 1.05; const x = (p.x + Math.sin(t / 3000 + p.f) * .02) * W; px.beginPath(); px.arc(x, p.y * H, p.r * devicePixelRatio, 0, 7); px.fillStyle = `rgba(${p.c},${p.a})`; px.fill() } requestAnimationFrame(loop) })(0);
+
+    /* ---------- chispas ---------- */
+    let sparks = [];
+    function chispas(x, y, n = 40) { for (let i = 0; i < n; i++) { const a = Math.random() * 7, s = 2 + Math.random() * 5; sparks.push({ x: x * devicePixelRatio, y: y * devicePixelRatio, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 2, l: 1, c: Math.random() < .5 ? '#f48fb1' : '#7cc4ee', r: 2 + Math.random() * 3 }) } }
+    (function sl() { cx.clearRect(0, 0, W, H); sparks = sparks.filter(s => s.l > 0); for (const s of sparks) { s.x += s.vx; s.y += s.vy; s.vy += .12; s.l -= .016; cx.globalAlpha = Math.max(s.l, 0); cx.fillStyle = s.c; cx.beginPath(); cx.arc(s.x, s.y, s.r * devicePixelRatio, 0, 7); cx.fill() } cx.globalAlpha = 1; requestAnimationFrame(sl) })();
+
+    /* ---------- sobre ---------- */
+    const env = document.getElementById('envelope');
+    env.addEventListener('click', () => {
+      if (env.classList.contains('abierto')) return;
+      env.classList.add('abierto');
+      const r = env.getBoundingClientRect();
+      setTimeout(() => chispas(r.left + r.width / 2, r.top + r.height / 3, 60), 700);
+      setTimeout(() => { document.getElementById('sobre').classList.add('fuera'); document.getElementById('app').classList.add('on'); document.getElementById('nav').style.display = 'flex'; ir(0) }, 1700);
+    });
+
+    /* ---------- navegación ---------- */
+    const escenas = [...document.querySelectorAll('.escena')];
+    const puntos = document.getElementById('puntos');
+    escenas.forEach(() => puntos.appendChild(document.createElement('i')));
+    let actual = -1;
+    function ir(n) {
+      if (n < 0 || n >= escenas.length || n === actual) return;
+      escenas.forEach((e, i) => { e.classList.toggle('activa', i === n); e.classList.toggle('salida', i < n) });
+      [...puntos.children].forEach((p, i) => p.classList.toggle('on', i === n));
+      document.getElementById('prev').disabled = n === 0;
+      const nx = document.getElementById('next'); nx.disabled = n === escenas.length - 1;
+      actual = n;
+      const id = escenas[n].id;
+      if (id === 'escenaGracias') escribir();
+      if (id === 'escenaJardin') plantarJardin();
+      if (id !== 'escenaTrailer') pararTrailer();
+      monActivo = id === 'escenaPiropos';
+    }
+    document.getElementById('next').onclick = () => ir(actual + 1);
+    document.getElementById('prev').onclick = () => ir(actual - 1);
+    document.getElementById('otraVez').onclick = e => { chispas(e.clientX, e.clientY, 70); setTimeout(() => ir(0), 400) };
+    let tx = null;
+    document.getElementById('app').addEventListener('touchstart', e => { tx = e.touches[0].clientX }, { passive: true });
+    document.getElementById('app').addEventListener('touchend', e => { if (tx === null) return; const d = e.changedTouches[0].clientX - tx; if (Math.abs(d) > 70 && !e.target.closest('.pila,.cielo,.jardin-flores')) ir(actual + (d < 0 ? 1 : -1)); tx = null });
+    addEventListener('keydown', e => { if (e.key === 'ArrowRight') ir(actual + 1); if (e.key === 'ArrowLeft') ir(actual - 1) });
+
+    /* ---------- flip ---------- */
+    document.querySelectorAll('.flip').forEach(f => f.addEventListener('click', () => f.classList.toggle('vuelta')));
+
+    /* ---------- polaroids ---------- */
+    const fotos = [
+      ['img/caminata.jpg', 'La caminata · 11 oct'],
+      ['img/enfermera.jpg', 'La enfermera más bonita del mundo'],
+      ['img/ciudad.jpg', 'La ciudad encendida desde arriba'],
+      ['img/pequena.jpg', 'Tu pequeña, ¡qué cosita más bonita!'],
+      ['img/castillo.jpg', 'Ese castillo de fuegos'],
+      ['img/waffle.jpg', 'Tú, sacándole foto a todo'],
+      ['img/atardecer.jpg', 'Eres tan maravillosa como un atardecer'],
+      ['img/entrada.jpg', 'Por aquí es la entrada…'],
+      ['img/mesa.jpg', 'Waffles y chocolate caliente'],
+      ['img/mirador.jpg', 'Cena con vista'],
+    ];
+    const pila = document.getElementById('pila');
+    let orden = fotos.map((f, i) => { const d = document.createElement('div'); d.className = 'polaroid'; d.innerHTML = `<img src="${f[0]}" alt="" loading="lazy"><p>${f[1]}</p>`; d.dataset.rot = (Math.random() * 12 - 6).toFixed(1); pila.appendChild(d); return d });
+    function apilar() { orden.forEach((d, i) => { d.style.zIndex = orden.length - i; const k = Math.min(i, 3); d.style.transform = `rotate(${i ? d.dataset.rot : -1.5}deg) translateY(${k * 4}px) scale(${1 - k * .03})` }) }
+    apilar();
+    pila.addEventListener('click', () => { const top = orden[0]; top.classList.add('vuela'); setTimeout(() => { top.classList.remove('vuela'); orden.push(orden.shift()); apilar() }, 420) });
+
+    /* ---------- receta ---------- */
+    const items = [...document.querySelectorAll('.item')];
+    items.forEach(it => it.addEventListener('click', e => { it.classList.toggle('ok'); const todos = items.every(x => x.classList.contains('ok')); const a = document.getElementById('alta'); if (todos && !a.classList.contains('si')) { a.classList.add('si'); const r = a.getBoundingClientRect(); chispas(r.left + r.width / 2, r.top, 50) } else if (!todos) a.classList.remove('si') }));
+
+    /* ---------- carta con efecto de escritura ---------- */
+    const parrafos = [
+      'Gracias por tu tiempo, por las conversaciones, por las risas y por dejarme conocer un poquito de tu mundo.',
+      'Admiro mucho lo que haces y lo que eres: una persona que trabaja duro, que cuida a los demás y que no se rinde fácil.',
+      'Conocerte ha sido de lo más bonito de este año. Eres valiosa, Gaby, y espero que nunca lo dudes.'
+    ];
+    let escrito = false;
+    function escribir() {
+      if (escrito) return; escrito = true;
+      const c = document.getElementById('carta'); c.innerHTML = '';
+      let pi = 0, ci = 0, p = null; const cur = document.createElement('span'); cur.className = 'cursor';
+      (function paso() {
+        if (pi >= parrafos.length) { return }
+        if (!p) { p = document.createElement('p'); c.appendChild(p); p.appendChild(cur) }
+        cur.insertAdjacentText('beforebegin', parrafos[pi][ci]); ci++;
+        if (ci >= parrafos[pi].length) { pi++; ci = 0; if (pi < parrafos.length) { p = null; setTimeout(paso, 450); return } }
+        setTimeout(paso, parrafos[pi] && /[.,]/.test(parrafos[pi][ci - 1]) ? 160 : 26);
+      })();
+    }
+
+    /* ---------- ciudad nocturna ---------- */
+    const cc = document.getElementById('ciudad'), cg = cc.getContext('2d');
+    let luces = [], cw, ch;
+    function prepCiudad() {
+      const r = cc.getBoundingClientRect(); if (!r.width) return; cw = cc.width = r.width * devicePixelRatio; ch = cc.height = r.height * devicePixelRatio; luces = [];
+      for (let i = 0; i < 520; i++) { const y = .58 + Math.pow(Math.random(), .8) * .42; luces.push({ x: Math.random(), y, r: (.6 + Math.random() * 1.4) * (y), c: ['255,214,150', '255,236,200', '244,143,177', '124,196,238'][Math.random() < .75 ? Math.floor(Math.random() * 2) : 2 + Math.floor(Math.random() * 2)], f: Math.random() * 6, s: .5 + Math.random() * 2 }) }
+    }
+    function dibujaCiudad(t) {
+      if (cw) {
+        cg.clearRect(0, 0, cw, ch);
+        cg.fillStyle = 'rgba(20,18,45,.85)'; cg.beginPath(); cg.moveTo(0, ch * .62);
+        for (let x = 0; x <= cw; x += cw / 12)cg.lineTo(x, ch * (.56 + .06 * Math.sin(x / cw * 7 + 1)));
+        cg.lineTo(cw, ch); cg.lineTo(0, ch); cg.fill();
+        for (const l of luces) { const a = .55 + .45 * Math.sin(t / 600 * l.s + l.f); cg.beginPath(); cg.arc(l.x * cw, l.y * ch, l.r * devicePixelRatio * 1.6, 0, 7); cg.fillStyle = `rgba(${l.c},${a})`; cg.fill() }
+      }
+      requestAnimationFrame(dibujaCiudad)
+    }
+    requestAnimationFrame(dibujaCiudad);
+    const deseos = [
+      [18, 18, 'Otro mirador, otra noche de luces'],
+      [46, 10, 'Más waffles con chocolate caliente'],
+      [76, 22, 'Una caminata nueva por descubrir'],
+      [30, 38, 'Celebrar cada uno de tus logros'],
+      [64, 42, 'Y lo que tú quieras proponer ✦'],
+    ];
+    const cielo = document.getElementById('cielo'), deseo = document.getElementById('deseo');
+    deseos.forEach(([x, y, t]) => { const s = document.createElement('div'); s.className = 'estrella'; s.style.left = x + '%'; s.style.top = y + '%'; s.onclick = e => { s.classList.add('vista'); deseo.classList.remove('ver'); setTimeout(() => { deseo.textContent = t; deseo.classList.add('ver') }, 120); chispas(e.clientX, e.clientY, 20) }; cielo.appendChild(s) });
+    new ResizeObserver(prepCiudad).observe(cc);
+
+    /* ---------- retrato ---------- */
+    document.getElementById('retrato').addEventListener('click', e => chispas(e.clientX, e.clientY, 35));
+
+    /* ---------- curita ---------- */
+    const zc = document.getElementById('curita');
+    zc.addEventListener('click', () => { if (zc.classList.contains('puesta')) return; zc.classList.add('puesta'); document.getElementById('msgCurita').classList.add('ver'); const r = zc.getBoundingClientRect(); setTimeout(() => chispas(r.left + r.width / 2, r.top + r.height / 2, 40), 500) });
+
+    /* ---------- flores (SVG) ---------- */
+    function girasol(r = 18) {
+      let s = ''; for (let i = 0; i < 16; i++)s += `<ellipse cx="0" cy="${-r * .95}" rx="${r * .28}" ry="${r * .62}" fill="${i % 2 ? '#ffd23f' : '#ffc21a'}" transform="rotate(${i * 22.5})"/>`;
+      s += `<circle r="${r * .55}" fill="#7a4a1e"/><circle r="${r * .38}" fill="#5a3412"/>`; for (let i = 0; i < 8; i++)s += `<circle cx="${Math.cos(i) * r * .3}" cy="${Math.sin(i) * r * .3}" r="1.3" fill="#a46a2c"/>`; return s
+    }
+    function clavel(r = 15, c1 = '#f48fb1', c2 = '#fbc6d9') {
+      let s = '';
+      for (let k = 0; k < 3; k++) {
+        const rr = r * (1 - k * .25), col = k === 1 ? c2 : c1; let d = ''; const n = 22; for (let i = 0; i <= n; i++) { const a = i / n * Math.PI * 2, q = rr * (i % 2 ? .82 : 1); d += (i ? 'L' : 'M') + (Math.cos(a) * q).toFixed(1) + ' ' + (Math.sin(a) * q * .85).toFixed(1) }
+        s += `<path d="${d}Z" fill="${col}" stroke="#fff" stroke-width=".8" stroke-opacity=".6" transform="translate(0 ${-k * 3})"/>`
+      } return s
+    }
+    document.getElementById('metaCab').innerHTML = girasol(15);
+    const coloresClavel = [['#f48fb1', '#fbc6d9'], ['#e66a98', '#f7a8c4'], ['#7cc4ee', '#c6e7fa'], ['#f9a8c6', '#fff0f5']];
+    function flor(cont, x, h, delay, tipo) {
+      const w = 70, el = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      el.setAttribute('viewBox', `0 0 ${w} ${h + 40}`); el.setAttribute('class', 'flor');
+      el.style.left = `calc(${x}% - ${w / 2}px)`; el.style.width = w + 'px'; el.style.height = (h + 40) + 'px'; el.style.animationDelay = delay + 's';
+      const lado = Math.random() < .5 ? -1 : 1, hy = h * .55 + 30;
+      const cab = tipo === 'g' ? girasol(14 + Math.random() * 6) : clavel(12 + Math.random() * 4, ...coloresClavel[Math.floor(Math.random() * coloresClavel.length)]);
+      el.innerHTML = `<path d="M35 ${h + 40} Q${35 + lado * 6} ${h / 2 + 30} 35 30" stroke="#6fae6a" stroke-width="3" fill="none"/>
+  <path d="M35 ${hy} q${lado * 16} -10 ${lado * 22} -2 q${-lado * 10} 9 ${-lado * 22} 2z" fill="#86c47f"/>
+  <g transform="translate(35 30)"><g class="cab" style="animation-delay:${-Math.random() * 4}s">${cab}</g></g>`;
+      cont.appendChild(el);
+    }
+    const jardin = document.getElementById('jardin');
+    function plantarJardin() {
+      jardin.innerHTML = ''; const H = jardin.clientHeight || 300;
+      for (let i = 0; i < 22; i++) { const x = 2 + i * (96 / 21) + (Math.random() * 3 - 1.5); const h = H * (.25 + Math.random() * .55); flor(jardin, x, h, .1 + i * .09 + Math.random() * .3, Math.random() < .45 ? 'g' : 'c') }
+      setTimeout(() => chispas(innerWidth / 2, innerHeight * .7, 50), 1800);
+    }
+    jardin.addEventListener('click', e => { const r = jardin.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width * 100; const h = Math.max(40, r.bottom - e.clientY - 30); flor(jardin, x, h, 0, Math.random() < .5 ? 'g' : 'c'); chispas(e.clientX, e.clientY, 14) });
+
+    /* ---------- tortuga ---------- */
+    const pasos = [
+      ['Solo quiero que sepas que, en serio, te quiero en mi vida.'],
+      ['Cada día dar un pasito, así sea de tortuga…'],
+      ['…si eso me acerca un poquito más a ti, quiero hacerlo.'],
+      ['Con cariño y paciencia se puede llegar a algo bonito.', 'fin'],
+    ];
+    let paso = 0; const tort = document.getElementById('tortuga'), cam = document.getElementById('camino'), ptxt = document.getElementById('pasosTxt'), bPas = document.getElementById('pasito');
+    bPas.addEventListener('click', e => {
+      if (paso >= pasos.length) { paso = 0; ptxt.innerHTML = ''; cam.classList.remove('llego'); tort.style.left = '0'; bPas.textContent = 'Un pasito más 🐢'; return }
+      const ancho = cam.clientWidth - 104 - 60; tort.style.left = (ancho * (paso + 1) / pasos.length) + 'px';
+      tort.classList.remove('camina'); void tort.offsetWidth; tort.classList.add('camina');
+      const p = document.createElement('p'); p.textContent = pasos[paso][0]; if (pasos[paso][1]) p.className = 'fin'; ptxt.appendChild(p);
+      paso++;
+      if (paso === pasos.length) { setTimeout(() => { cam.classList.add('llego'); const r = cam.getBoundingClientRect(); chispas(r.right - 40, r.bottom - 80, 50) }, 1500); bPas.textContent = 'Otra vez desde el inicio' }
+    });
+
+    /* ---------- frases de ánimo ---------- */
+    const frases = [
+      'Eres más fuerte que cualquier turno de noche.',
+      'Lo que haces importa, aunque nadie lo aplauda.',
+      'Hoy también vas a poder. Siempre puedes.',
+      'Descansar también es avanzar.',
+      'Un mal día no borra lo increíble que eres.',
+      'Alguien hoy está mejor gracias a ti.',
+      'No tienes que poder con todo. Solo con lo de hoy.',
+      'Respira. Lo estás haciendo muy bien.',
+      'Paso a paso también se llega lejos.',
+      'Tu esfuerzo de hoy es tu orgullo de mañana.',
+      'Cree en ti como yo creo en ti.',
+      'El mundo es un poquito mejor porque tú estás en él.',
+    ];
+    let fi = 0; const fTxt = document.getElementById('fraseTxt'), fNum = document.getElementById('fraseNum'), fCard = document.getElementById('fraseCard');
+    function verFrase() { fTxt.textContent = frases[fi]; fNum.textContent = (fi + 1) + ' / ' + frases.length }
+    verFrase();
+    document.getElementById('otraFrase').addEventListener('click', () => { fCard.classList.remove('gira'); void fCard.offsetWidth; fCard.classList.add('gira'); setTimeout(() => { fi = (fi + 1) % frases.length; verFrase() }, 350) });
+
+    /* ---------- piropos + monitor ---------- */
+    const piropos = [
+      'Desde que te conocí, mi corazón ya no tiene un ritmo normal. ¿Me revisas?',
+      'No sé mucho de medicina, pero tu sonrisa funciona mejor que cualquier analgésico.',
+      'Me pusiste en observación… y ya no quiero que me den el alta.',
+      'Dicen que el gym sube la autoestima. Tú me subes la presión.',
+      'Si fueras vacuna, me pondría todas las dosis de refuerzo.',
+      'Te veo y se me olvida contar las repeticiones.',
+      'Contigo las vistas bonitas salen sobrando: la mejor ya la tengo enfrente.',
+      'Debería ser ilegal verse así de linda con uniforme.',
+      'Con esos ojitos no necesitas estetoscopio: igual escuchas cómo late esto.',
+      'Diagnóstico: me gustas. Pronóstico: crónico. Tratamiento: verte más seguido.',
+    ];
+    let pi2 = 0, bpmVal = 72, monActivo = false;
+    const bpmEl = document.getElementById('bpm'), alerta = document.getElementById('alerta'), pirEl = document.getElementById('piropo');
+    document.getElementById('otroPiropo').addEventListener('click', e => {
+      pirEl.innerHTML = `<p>${piropos[pi2]}</p>`; pi2 = (pi2 + 1) % piropos.length;
+      bpmVal = Math.min(bpmVal + 9, 170); bpmEl.textContent = bpmVal; bpmEl.classList.remove('late'); void bpmEl.offsetWidth; bpmEl.classList.add('late');
+      alerta.textContent = bpmVal >= 150 ? '⚠ PACIENTE ENAMORÁNDOSE · NO TIENE CURA' : bpmVal >= 110 ? '⚠ RITMO ELEVADO · CAUSA: GABY' : '';
+      if (pi2 === 0) setTimeout(() => { bpmVal = 72; bpmEl.textContent = 72; alerta.textContent = 'Reiniciando paciente…' }, 2500);
+      e.currentTarget.textContent = 'Otro piropo'; chispas(e.clientX, e.clientY, 16);
+    });
+    const em = document.getElementById('ecgMon'), eg = em.getContext('2d'); let ex = 0, ey = [];
+    function prepMon() { const r = em.getBoundingClientRect(); em.width = r.width * devicePixelRatio; em.height = r.height * devicePixelRatio; ey = new Array(em.width).fill(null); ex = 0 }
+    new ResizeObserver(prepMon).observe(em);
+    let fase = 0;
+    (function mon() {
+      if (monActivo && em.width) {
+        const h = em.height, velocidad = 2 * devicePixelRatio, periodo = (60 / bpmVal) * 60 * velocidad;
+        for (let s = 0; s < velocidad; s++) {
+          fase = (fase + 1) % periodo; const t = fase / periodo; let y = 0;
+          if (t > .10 && t < .16) y = Math.sin((t - .10) / .06 * Math.PI) * .08;
+          else if (t > .20 && t < .22) y = -.12; else if (t >= .22 && t < .25) y = .85; else if (t >= .25 && t < .28) y = -.3;
+          else if (t > .40 && t < .50) y = Math.sin((t - .40) / .10 * Math.PI) * .15;
+          ey[ex] = h * .6 - y * h * .5; ex = (ex + 1) % em.width;
+        }
+        eg.clearRect(0, 0, em.width, h); eg.strokeStyle = '#7ff0a0'; eg.lineWidth = 2 * devicePixelRatio; eg.shadowColor = '#7ff0a0'; eg.shadowBlur = 6; eg.beginPath();
+        let first = true; for (let i = 0; i < em.width; i++) { if (Math.abs(i - ex) < 14 * devicePixelRatio) { first = true; continue } const v = ey[i]; if (v == null) { first = true; continue } first ? eg.moveTo(i, v) : eg.lineTo(i, v); first = false } eg.stroke();
+      }
+      requestAnimationFrame(mon);
+    })();
+
+    /* ---------- canción ---------- */
+    /* Fuera de claude.ai (Netlify, GitHub Pages, etc.) se muestra el reproductor oficial de Spotify */
+    (function () {
+      const h = location.hostname;
+      if (/claude|anthropic/i.test(h)) return;
+      const r = document.getElementById('reproductor');
+      const hueco = document.createElement('div'); r.appendChild(hueco);
+      window.onSpotifyIframeApiReady = API => {
+        API.createController(hueco, { uri: 'spotify:track:2dSz2px33HmyFwL5rDlh2e', width: '100%', height: 152 }, ctrl => {
+          window.spotifyCtrl = ctrl;
+          document.querySelector('.btn-spotify').style.display = 'none';
+          ctrl.addListener('playback_update', e => {
+            const sonando = !e.data.isPaused;
+            td.classList.toggle('suena', sonando);
+            document.getElementById('escenaCancion').classList.toggle('suena-ya', sonando);
+          });
+        });
+      };
+      const s = document.createElement('script'); s.src = 'https://open.spotify.com/embed/iframe-api/v1'; s.async = true; document.head.appendChild(s);
+    })();
+    const td = document.getElementById('tocadiscos');
+    td.addEventListener('click', e => { if (window.spotifyCtrl) { window.spotifyCtrl.togglePlay(); chispas(e.clientX, e.clientY, 24); return } const on = td.classList.toggle('suena'); document.getElementById('escenaCancion').classList.toggle('suena-ya', on); if (on) chispas(e.clientX, e.clientY, 24) });
+
+    /* ---------- pergamino ---------- */
+    document.getElementById('abrirPerg').addEventListener('click', e => { const pg = document.getElementById('pergamino'); const ab = pg.classList.toggle('abierto'); e.currentTarget.textContent = ab ? 'Enrollar' : 'Desenrollar'; if (ab) setTimeout(() => { const r = pg.getBoundingClientRect(); chispas(r.left + r.width / 2, r.top + 40, 30) }, 1600) });
+
+    /* ---------- tráiler ---------- */
+    const escenasT = [
+      ['img/caminata.jpg', 'Una caminata…'],
+      ['img/ciudad.jpg', '…una ciudad encendida…'],
+      ['img/castillo.jpg', '…un castillo de fuegos…'],
+      ['img/mesa.jpg', '…waffles y chocolate caliente…'],
+      ['img/atardecer.jpg', '…y un atardecer.'],
+    ];
+    const pant = document.getElementById('pantalla'), ley = document.getElementById('leyenda'), finT = document.getElementById('finTrailer'), play = document.getElementById('play');
+    const cuadros = escenasT.map(([src]) => { const d = document.createElement('div'); d.className = 'cuadro'; d.innerHTML = `<img src="${src}" alt="">`; pant.insertBefore(d, ley); return d });
+    let timers = [];
+    function pararTrailer() { timers.forEach(clearTimeout); timers = []; cuadros.forEach(c => c.classList.remove('on')); ley.classList.remove('on'); finT.classList.remove('on'); play.style.display = '' }
+    pant.addEventListener('click', () => {
+      if (play.style.display === 'none' && !finT.classList.contains('on')) return;
+      pararTrailer(); play.style.display = 'none';
+      escenasT.forEach(([, t], i) => {
+        timers.push(setTimeout(() => { cuadros.forEach(c => c.classList.remove('on')); cuadros[i].classList.add('on'); ley.classList.remove('on'); setTimeout(() => { ley.textContent = t; ley.classList.add('on') }, 350) }, i * 2800));
+      });
+      timers.push(setTimeout(() => { cuadros.forEach(c => c.classList.remove('on')); ley.classList.remove('on'); finT.classList.add('on'); const r = pant.getBoundingClientRect(); setTimeout(() => chispas(r.left + r.width / 2, r.top + r.height / 2, 60), 1200) }, escenasT.length * 2800));
+    });
+  </script>
+</body>
+
+</html>
